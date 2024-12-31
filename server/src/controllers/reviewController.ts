@@ -8,7 +8,7 @@ export const getAllReviews = async (_req: Request, res: Response) => {
         const reviews = await Review.find();
         res.json(reviews);
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Error getting all reviews' });
     }
 };
 
@@ -19,7 +19,7 @@ export const createReview = async (req: Request, res: Response) => {
         const reviews = await Review.create(review);
         res.json(reviews);
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Error creating review' });
     }
 };
 
@@ -30,6 +30,21 @@ export const getReviewById = async (req: Request, res: Response) => {
         const review = await Review.findOne({ _id: new ObjectId(reviewId) });
         res.json(review);
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Error getting review by id' });
     }
-}; 
+};
+
+// Delete review by id
+export const deleteReviewById = async (req: Request, res: Response) => {
+    try {
+        const deletedReview = await Review
+        .findOneAndDelete(
+            { _id: new ObjectId(req.params.reviewId) },
+        );
+        res.status(200).json(deletedReview);
+        console.log(`Deleted review: ${deletedReview}`);
+    } catch (error) {
+        console.log("I don't feel so good Mr. Stark");
+        res.status(500).json({ message: 'Error deleting review by id' });
+    }
+};

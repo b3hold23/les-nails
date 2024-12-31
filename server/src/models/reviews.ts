@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 
 export interface IReview extends Document {
     name: string;
@@ -17,6 +17,10 @@ const reviewSchema = new Schema<IReview>(
             type: String,
             required: true,
         },
+        rating: {
+            type: Number,
+            required: false,
+        },
     },
     {
         toJSON: {
@@ -26,8 +30,8 @@ const reviewSchema = new Schema<IReview>(
 }
 );
 
-reviewSchema.virtual('rating').get(function (this: IReview) {
-    return this.rating;
+reviewSchema.virtual('createdAt').get(function (this: IReview) {
+    return (this._id as mongoose.Types.ObjectId).getTimestamp();
 });
 
 const Review = model<IReview>('Review', reviewSchema);

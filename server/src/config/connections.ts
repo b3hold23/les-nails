@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const MONGO_URI = process.env.MONGODB_URI || '';
 
 const db = async (): Promise<typeof mongoose.connection> => {
     try {
-        await mongoose.connect(process.env.MANGODB_URI || 'mongodb://127.0.0.1:27017/nail-reviews');
+        await mongoose.connect(MONGO_URI)
         console.log('Connected to database');
         return mongoose.connection;
     } catch (error) {
