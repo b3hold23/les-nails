@@ -1,7 +1,7 @@
 export interface ReviewData {
-    _id: string;
+    _id: number;
     name: string;
-    comment: string;
+    review: string;
     rating: number;
     createdAt: Date;
 }
